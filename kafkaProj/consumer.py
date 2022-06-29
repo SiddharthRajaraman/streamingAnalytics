@@ -1,15 +1,16 @@
 from kafka import KafkaConsumer
 import sys
-bootstrap_servers = ['localhost:9092']
-topicName = 'myTopic'
-consumer = KafkaConsumer (topicName, group_id = 'group1',bootstrap_servers = bootstrap_servers, auto_offset_reset = 'earliest')
 
-print(consumer.topics())
+import kafka
+
+topicName = 'exampleTopic'
+
+kafkaConsumer = KafkaConsumer(topicName, bootstrap_servers='localhost:9092', auto_offset_reset = 'earliest')
 
 
+print(kafkaConsumer.topics())
 
-try:
-    for message in consumer:
-        print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition,message.offset, message.key,message.value))
-except KeyboardInterrupt:
-    sys.exit()
+
+for message in kafkaConsumer:
+    print("key: {}, value: {}, topic: {}, partition: {}".format(message.key, message.value, message.topic, message.partition))
+

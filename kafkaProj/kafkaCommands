@@ -1,6 +1,6 @@
 Start Server:
-- ~/kafka_2.13-3.2.0/bin/kafka-server-start.sh ~/kafka_2.13-3.2.0/config/server.properties
+- bin/kafka-server-start.sh config/server.properties
 
 Start Zookeper:
-- ~/kafka_2.13-3.2.0/bin/kafka-server-start.sh ~/kafka_2.13-3.2.0/config/zookeeper.properties
+- bin/zookeeper-server-start.sh config/zookeeper.properties
 
