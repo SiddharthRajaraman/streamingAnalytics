@@ -4,6 +4,7 @@ gets topic data
 - list of topics
 '''
 
+from ensurepip import bootstrap
 from http import server
 from kafka import KafkaConsumer, KafkaAdminClient
 from kafka.admin import NewTopic
@@ -11,7 +12,6 @@ from kafka.admin import NewTopic
 
 kafkaConsumer = KafkaConsumer(bootstrap_servers = 'localhost:9092')
 adminClient = KafkaAdminClient(bootstrap_servers = 'localhost:9092')
-
 
 def createTopic(topicName: str, numPartitions: int, replicationFactor: int):
     #check if topic exists
@@ -34,13 +34,28 @@ def deleteTopic(topicName: str):
     else:
         print('Topic: {} does not exists'.format(topicName))
 
+#get number of partitions for a given topic
+def getPartitions(topicName: str) -> int:
+    partitions = kafkaConsumer.partitions_for_topic(topicName)
+    return len(partitions)
 
-
-
+'''
 createTopic(topicName='test', numPartitions=3, replicationFactor=1)
 print(kafkaConsumer.topics())
 deleteTopic(topicName='test')
+'''
+'''
+deleteTopic('myTopic')
+deleteTopic('exampleTopic')
+'''
 
+print(kafkaConsumer.topics())
+deleteTopic('myTopic')
+
+#createTopic(topicName = "myTopic", numPartitions=1, replicationFactor=1)
+
+
+#print(getPartitions('exampleTopic'))
 
 #list all topics in cluster
 print(kafkaConsumer.topics())

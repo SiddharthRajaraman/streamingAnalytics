@@ -1,46 +1,32 @@
-import random
-from itertools import count
-import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.animation import FuncAnimation
-import statistics
+import psutil
+import collections
 
 
-plt.style.use('fivethirtyeight')
+# function to update the data
+def my_function(i):
+    # get data
+    cpu.popleft()
+    cpu.append(psutil.cpu_percent())
+    # clear axis
+    cpuPlot.cla()
+    # plot cpu
+    cpuPlot.plot(cpu)
+    cpuPlot.scatter(len(cpu)-1, cpu[-1])
+    cpuPlot.text(len(cpu)-1, cpu[-1]+2, "{}%".format(cpu[-1]))
+    cpuPlot.set_ylim(0,100)
+    #print('hi')
 
-x_vals = []
-
-index = count()
-
-bigList = []
-stdDev = []
-
-dataLabels = []
-stdDevLabels = []
-
-for i in range(2):
-    bigList.append([])
-    dataLabels.append("Stream: " + str(i))
-    stdDevLabels.append("StdDev Stream: " + str(i))
-    stdDev.append([])
-
-
-
-
-def animate(i):
-    for i in range(len(bigList)):
-        bigList[i].append(random.randint(0,10))
-        plt.plot(bigList[i], label=dataLabels[i])
-        if len(bigList[i]) > 1:
-            stdDev[i].append(statistics.stdev(bigList[i]))
-            plt.plot(stdDev[i], label=stdDevLabels[i])
-        else:
-            stdDev[i].append(0)
-    
-
-plt.legend(loc='best')
-ani = FuncAnimation(plt.gcf(), animate, interval=1000)
-
-
-plt.tight_layout()
+# start collections with zeros
+cpu = collections.deque(np.zeros(10))
+# define and adjust figure
+fig = plt.figure(figsize=(12,6), facecolor='#DEDEDE')
+cpuPlot = plt.subplot(121)
+cpuPlot.set_facecolor('#DEDEDE')
+# animate
+ani = FuncAnimation(fig, my_function, interval=1000)
+print("hi")
 plt.show()
+

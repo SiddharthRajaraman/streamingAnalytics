@@ -19,7 +19,7 @@ def getOutliers(data, columnName: str):
     q1 = data.approxQuantile(columnName, [0.25], relativeError = 0)
     q3 = data.approxQuantile(columnName, [0.75], relativeError = 0)
 
-    iqr = q3[0] = q1[0]
+    iqr = q3[0] - q1[0]
 
     lessq1 = q1[0] - 1.5*iqr
     moreq3 = q3[0] + 1.5*iqr
